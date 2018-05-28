@@ -1,6 +1,6 @@
 import QtQuick 2.0
 
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.2
 
 
 import QtQuick.Layouts 1.3
@@ -17,6 +17,7 @@ import QtWebView 1.1
 import Qt.labs.calendar 1.0
 import Qt.labs.folderlistmodel 2.2
 import Qt.labs.settings 1.0
+import LogView 1.0
 
 ApplicationWindow {
     id: app
@@ -29,8 +30,8 @@ ApplicationWindow {
     title: qsTr("uniK-status")
 
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
-    Connections {target: unik;onUkStdChanged: logView.log(unik.ukStd);}
-    Connections {target: unik;onStdErrChanged: logView.log(unik.getStdErr());}
+    //Connections {target: unik;onUkStdChanged: logView.log(unik.ukStd);}
+    //Connections {target: unik;onStdErrChanged: logView.log(unik.getStdErr());}
     property int fs: Qt.platform.os !=='android'?app.width*0.02:app.width*0.03
     property color c1: "#1fbc05"
     property color c2: "#4fec35"
@@ -147,6 +148,7 @@ ApplicationWindow {
             height: parent.height
             visible: app.area===0
             anchors.left: xTools.right
+            bgColor: app.c5
         }
         Rectangle{
             id: xEditor
@@ -245,17 +247,18 @@ ApplicationWindow {
             }
         }
     }
-    Timer{
-        running: true
-        repeat: true
-        interval: 1000
-        onTriggered: unik.setProperty("logViewVisible", true)
-    }
+//    Timer{
+//        running: true
+//        repeat: true
+//        interval: 1000
+//        onTriggered: unik.setProperty("logViewVisible", true)
+//    }
     Component.onCompleted: {
         if(Qt.platform.os==='windows'){
             var a1 = Screen.desktopAvailableHeight
             var altoBarra = a1-unik.frameHeight(app)
             app.height = a1-altoBarra
         }
+        //console.log(unik.stdErr)
     }
 }
