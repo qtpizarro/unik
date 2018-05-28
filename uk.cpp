@@ -1620,21 +1620,6 @@ void UK::finalizaRun(int e)
 
 void UK::log(QByteArray d)
 {
-/*
-    QTextStream out(stdout);
-    out << "unik: ";
-    out << d;
-#ifdef Q_OS_ANDROID
-        qDebug()<<"unik android log: "<<d;
-#endif
-
-#ifdef Q_OS_WIN32
-    out << "\n";
-#else
-    out << "\n";
-#endif*/
-    //qInfo()<<d;
-
     QString d2;
     d2.append(d);
     if(!_engine->rootContext()->property("setInitString").toBool()){

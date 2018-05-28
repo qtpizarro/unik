@@ -58,15 +58,18 @@ onManagerEventCallback_t eventCallback(ManagerEvent *me) {
 UK u;
 QByteArray debugData;
 QString debugPrevio;
-void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    QTextStream out(stdout);
+    //out << "unik: ";
+    //out << d;
     QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
     case QtDebugMsg:
         //fprintf(stderr, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
         debugData="";
         debugData.append("Unik Debug: (");
-        debugData.append(localMsg.constData());
+        debugData.append(msg);
         if(context.file!=NULL){
         fprintf(stderr, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
             debugData.append(",");
@@ -80,13 +83,13 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         }
         debugData.append(")\n");
         u.log(debugData);
-        //u.setUkStd(QString(debugData));
+        out << debugData;
         break;
     case QtInfoMsg:
         //fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
         debugData="";
         debugData.append("Unik Info: (");
-        debugData.append(localMsg.constData());
+        debugData.append(msg);
         if(context.file!=NULL){
             fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
             debugData.append(",");
@@ -100,12 +103,11 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         }
         debugData.append(")\n");
         u.log(debugData);
-        //u.setUkStd(QString::fromUtf8(debugData).toLatin1());
-        break;
+        out << debugData;        break;
     case QtWarningMsg:
         debugData="";
         debugData.append("Unik Warning: (");
-        debugData.append(localMsg.constData());
+        debugData.append(msg);
         if(context.file!=NULL){
             fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
             debugData.append(",");
@@ -119,12 +121,12 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         }
         debugData.append(")\n");
         u.log(debugData);
-        //u.setUkStd(QString(debugData));
+        out << debugData;
         break;
     case QtCriticalMsg:
         debugData="";
         debugData.append("Unik Critical: (");
-        debugData.append(localMsg.constData());
+        debugData.append(msg);
         if(context.file!=NULL){
             fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
             debugData.append(",");
@@ -138,13 +140,13 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         }
         debugData.append(")\n");
         u.log(debugData);
-        //u.setUkStd(QString(debugData));
+        out << debugData;
         break;
     case QtFatalMsg:
         //fprintf(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
         debugData="";
         debugData.append("Unik Fatal: (");
-        debugData.append(localMsg.constData());
+        debugData.append(msg);
         debugData.append(",");
         debugData.append(context.file);
         debugData.append(",");
@@ -153,6 +155,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         debugData.append(context.function);
         debugData.append(")\n");
         u.log(debugData);
+        out << debugData;
         abort();
     }
 }
@@ -301,7 +304,7 @@ int main(int argc, char *argv[])
     //UK u;
     //u0=u;
      u.setEngine(&engine);
-    qInstallMessageHandler(myMessageOutput);
+    qInstallMessageHandler(unikStdOutPut);
 
 
 
