@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>fontawesome-webfont.ttf</file>
+        <file>Splash.qml</file>
+        <file>logo_unik_512x512.png</file>
+        <file>SplashAndroid.qml</file>
+        <file>mainAndroid.qml</file>
+        <file>Boton.qml</file>
+        <file>Unik.qml</file>
+        <file>LineResizeH.qml</file>
+        <file>LogView.qml</file>
+    </qresource>
+</RCC>
