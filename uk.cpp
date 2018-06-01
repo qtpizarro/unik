@@ -6,9 +6,6 @@ UK::UK(QObject *parent) : QObject(parent)
     lsim<<"g"<<"h"<<"i"<<"j"<<"k"<<"l"<<"m"<<"n"<<"o"<<"p"<<"q"<<"r"<<"s"<<"t"<<"u"<<"v"<<"w"<<"x"<<"y"<<"z";
     lnum<<"11"<<"33"<<"66"<<"77"<<"88"<<"99"<<"20"<<"30"<<"40"<<"60"<<"70"<<"80"<<"90"<<"12"<<"21"<<"57"<<"82"<<"92"<<"84"<<"72";
     file = new QFile();
-    //connect(_engine, SIGNAL(quit()), this, SLOT(engineQuited()));
-
-    //
 }
 
 UK::~UK()
@@ -20,7 +17,7 @@ void UK::setHost(QString nh)
 {
     h = nh;
     if(debugLog){
-        //qDebug()<<"Set host:"<<h;
+        qInfo()<<"Set host:"<<h;
     }
 }
 
@@ -32,25 +29,16 @@ QString UK::host()
 void UK::ukClose(QQuickCloseEvent *close){
     QSettings settings;
 #ifndef Q_OS_ANDROID
-    //close.accept =   false;
-    //_engine->rootContext()->setContextProperty("wait", true);
-    //_engine->rootContext()->setContextProperty("unikLaunchVisible", true);
     _engine->rootContext()->setContextProperty("logViewVisible", true);
     qInfo("ApplicationWindow closed. ");
     db.close();
     QByteArray unikMainLocation;
 
     unikMainLocation.append(settings.value("ws").toString());
-    //unikMainLocation.append(getPath(3));
     unikMainLocation.append("/unik-tools/main.qml");
     qInfo("Loading "+unikMainLocation);
-
-    //if(!canCloseApp){
-        _engine->load(unikMainLocation);
-    /*}else{
-        qApp->quit();
-    }*/
-#else
+   _engine->load(unikMainLocation);
+ #else
     _engine->rootContext()->setContextProperty("wait", true);
     log("Android ApplicationWindow closed. ");
     db.close();
@@ -70,37 +58,16 @@ void UK::ukClose(QQuickCloseEvent *close){
         qApp->quit();
     }*/
 
-#endif
-        /*QObject *aw1 = _engine->rootObjects().at(_engine->rootObjects().size()-1);
-        QQuickWindow *window1 = qobject_cast<QQuickWindow*>(aw1);
-        if (!window1) {
-            log("ApplicationWindows new no detected.");
-        }else{
-            //u.log("LogView ne disponible.");
-            QQuickItem *root1 = window1->contentItem();
-            QQmlComponent component21(_engine, QUrl("qrc:/Unik.qml"));
-            QQuickItem *object1 = qobject_cast<QQuickItem*>(component21.create());
-            QQmlEngine::setObjectOwnership(object1, QQmlEngine::CppOwnership);
-            object1->setParentItem(root1);
-            object1->setParent(_engine);
-        }*/
-}
-
-void UK::ukInit()
-{
-    //qDebug()<<"Uk init! ";
-    //connect(_engine, SIGNAL(warnings(QList<QQmlError>)), this, SLOT(errorQML(QList<QQmlError>)));
+#endif        
 }
 
 void UK::engineExited(int n)
 {
-    //qDebug()<<"QML Engine Exited: "<<n;
     db.close();
 }
 
 void UK::engineQuited(QObject *)
 {
-    //qDebug()<<"QML Engine Quited ";
     db.close();
 }
 
@@ -131,339 +98,9 @@ void UK::definirCarpetaTrabajo(QString et)
     setWorkSpace(et);
 }
 
-void UK::errorQML(QList<QQmlError> e)
-{
-    /*QByteArray err;
-    err.append("QML Error: ");
-    err.append(e.last().toString());
-    uErrors.append(err);
-    log(err);*/ //COMENTADO PORQUE TODAS LAS SALIDAS YA SE MUESTRAN
-    //setUkStd(err);
-    //qDebug()<<err;
-}
-
-void UK::loadQml(QByteArray url)
-{
-
-    //QObject *aw0 = _engine->rootObjects().at(0);
-    //QQmlContext ctx=_engine->contextForObject(aw0);
-    //log(ctx.);
-    //aw0->setParent(nullptr);
-    //qDebug()<<"awsplash: "<<aw0->property("objectName");
-    /*if(aw0->property("objectName")=="awsplash"){
-        aw0->setProperty("ver", false);
-    }*/
-}
-
-void UK::revInj()
-{
-
-    //    if(_engine->rootObjects().length()>0){
-    //        if(_engine->rootObjects().at(0)->findChild<QObject*>("tua9001")!=NULL){
-    //            //qDebug()<<"----->XXXXXXXXX"<<_engine->rootObjects().at(0)->findChild<QObject*>("tua9001")->property("objectName").toString();
-    //        }else{
-    //            qDebug()<<"tua9001 not found";
-    //            //qDebug()<<"-->"<<_engine->rootObjects().at(0)->property("objectName");
-    //            /*for (int i = 0; i < _engine->rootObjects().at(0)->children().size(); ++i) {
-    //                qDebug()<<"-->"<<_engine->rootObjects().at(0)->children().at(i)->property("objectName");
-    //            }
-    //            //qDebug()<<"-->"<<inj;
-    //            QQmlContext *context = new QQmlContext(_engine->rootContext());
-    //            //context->setContextProperty("myModel", &modelData);
-
-    //            QByteArray nInj;
-    //            nInj.append(inj);
-    //            QQmlComponent component(_engine);
-    //            component.setData(nInj.constData(), QUrl());
-    //            QQuickItem *window = qobject_cast<QQuickItem*>(component.create(context));
-    //            window->setObjectName("aaa");*/
-
-    //            QByteArray nInj;
-    //            nInj.append(inj);
-    //            QObject *root = _engine->rootObjects().at(0);
-    //                QQuickItem * myRect = root->findChild<QQuickItem *>("myRect");
-    //                if(myRect) {
-    //                    QQmlComponent rect1(_engine,myRect);
-    //                    rect1.setData(nInj.constData(), QUrl());
-
-    //                    QQuickItem *rect1Instance = qobject_cast<QQuickItem *>(rect1.create());
-    //                    _engine->setObjectOwnership(rect1Instance,QQmlEngine::JavaScriptOwnership);
-    //                    if(rect1Instance)
-    //                        rect1Instance->setParentItem(myRect);
-    //                }
-
-
-    //        }
-
-    //    }
-}
-
-void UK::initRecInj(int ms)
-{
-    if(ms>0){
-        cinj = new QTimer(this);
-        connect(cinj, SIGNAL(timeout()),this, SLOT(revInj()));
-        cinj->start(ms);
-    }else{
-        cinj->stop();
-    }
-}
-
-
-/*void UK::cleanSour(QString c)
-{
-    QDirIterator it(c, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
-    while (it.hasNext()) {
-        QFile f(it.next());
-        f.remove();        
-    }
-}*/
-
 bool UK::folderToUpk(QString folder, QString upkName, QString user, QString key, QString folderDestination)
 {
     return mkUpk(folder.toUtf8(), upkName.toUtf8(), user.toUtf8(), key.toUtf8(), folderDestination.toUtf8());
-    /*
-    qDebug()<<"To upk with appName:"<<appName;
-    qDebug()<<"To upk with folder:"<<folder;
-    qDebug()<<"To upk with dirDestine:"<<dirDestino;
-    qDebug()<<"To upk with user:"<<user;
-    qDebug()<<"To upk with key:"<<key;
-    */
-
-    /*
-    //QByteArray upkData;
-    QByteArray urlUPK;
-    urlUPK.append(dirDestino);
-    urlUPK.append("/");
-    urlUPK.append(appName);
-    urlUPK.append(".upk");
-    QFile upk(urlUPK);
-    //
-    if(upk.exists()){
-        if(debugLog){
-            qDebug()<<"Cleaning upk: "<<urlUPK;
-        }
-        upk.remove();
-
-
-    }
-
-    QTextStream entradaUpk(&upk);
-    entradaUpk.setCodec("UTF-8");
-    QByteArray dataUpk="";
-    if(upk.open(QIODevice::WriteOnly)){
-        if(debugLog){
-            qDebug()<<"Making UPK "<<urlUPK;
-        }
-    }else{
-        if(debugLog){
-            qDebug()<<"Error while making UPK "<<urlUPK;
-        }
-        return false;
-    }
-    QDir dir0(folder);
-    if (!dir0.exists()) {
-        dir0.mkpath(".");
-    }
-    dir0.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-
-    if(debugLog){
-        qDebug() << "Scanning: " << dir0.path();
-    }
-
-    QByteArray r="6226";
-    QByteArray r2="6226";
-    //QByteArray ru="AAAAAAAAAAAAAAA";
-    QByteArray ru;
-    QString cdt = QDateTime::currentDateTime().toString("z");
-    if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
-        //funciona
-        r="9cc9";
-        r2="1dd1";
-    }else if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
-        //funciona
-        r="9dd9";
-        r2="1cc1";
-    }else{
-        //funciona
-        r="6dd6";
-        r2="2cc2";
-    }
-    //ru.append("111111111111111111111111111111111111111111111111111111111111");
-    QByteArray segUser;
-    segUser.append(user);
-    for (int i = 0; i < 40-user.size()-1; ++i) {
-        segUser.append("|");
-    }
-    segUser.append("-");
-    QByteArray segKey;
-    segKey.append(key);
-    for (int i = 0; i < 20-key.size(); ++i) {
-        segKey.append("|");
-    }
-    //qDebug()<<"Long Seg User: "<<segUser<<" "<<segUser.size();
-    QByteArray suH=segUser.toHex();
-    QByteArray suHC;
-    for (int i = 0; i < suH.size(); ++i) {
-        QString uc0;
-        uc0.append(suH.at(i));
-        if(uc0.contains(r.at(0))){
-            suHC.append(r.at(1));
-        }else if(uc0.contains(r.at(2))){
-            suHC.append(r.at(3));
-        }else if(uc0.contains(r2.at(0))){
-            suHC.append(r2.at(1));
-        }else if(uc0.contains(r2.at(2))){
-            suHC.append(r2.at(3));
-        }else{
-            suHC.append(uc0);
-        }
-        //suHC.append();
-    }
-
-    QByteArray skH=segKey.toHex();
-    QByteArray skHC;
-    for (int i = 0; i < skH.size(); ++i) {
-        QString uc0;
-        uc0.append(skH.at(i));
-        if(uc0.contains(r.at(0))){
-            skHC.append(r.at(1));
-        }else if(uc0.contains(r.at(2))){
-            skHC.append(r.at(3));
-        }else if(uc0.contains(r2.at(0))){
-            skHC.append(r2.at(1));
-        }else if(uc0.contains(r2.at(2))){
-            skHC.append(r2.at(3));
-        }else{
-            skHC.append(uc0);
-        }
-        //suHC.append();
-    }
-    //qDebug()<<"suHC: "<<suHC;
-    //qDebug()<<"skHC: "<<skHC;
-
-    ru.append(suHC);
-    ru.append(skHC);
-    //ru.append(segUser.toHex());
-    //ru.append(segKey.toHex());
-
-
-    //qDebug()<<"MSCT:"<<cdt<<" R: "<<r<<" R2: "<<r2;
-    entradaUpk << r;
-    entradaUpk << r2;
-    entradaUpk << ru;
-    //    dataUpk.append(r);
-    //    dataUpk.append(r2);
-    //    dataUpk.append(ru);
-
-    QStringList fileList = dir0.entryList();
-    if(debugLog){
-        qDebug()<<"For reading "<<fileList.count()<<" files...";
-    }
-    for (int i=0; i<fileList.count(); i++)
-    {
-
-        //qDebug()<<"Upkando: "<<fileList[i];
-
-        QByteArray ro;
-        ro.append(folder);
-        ro.append("/");
-        ro.append(fileList[i]);
-        QFile archOrig(ro);
-        if(archOrig.size()>0){
-            if(!archOrig.open(QIODevice::ReadOnly)){
-                if(debugLog){
-                    qDebug()<<"Read error "<<ro;
-                }
-                return false;
-            }else{
-                if(debugLog){
-                    qDebug() << "Reading: " << ro;
-                }
-            }
-            QString c;
-            c.append(archOrig.readAll());
-            //qDebug()<<"--->>>"<<c;
-            QByteArray codeUtf8;
-            codeUtf8.append(c.toUtf8());
-            //qDebug()<<"--->>>2"<<codeUtf8;
-            QString code;
-            code.append(codeUtf8.toHex());
-            //qDebug()<<"--->>>3"<<code;
-
-            //qDebug()<<ro;
-            //qDebug()<<"----------------------------------"<<code;
-            //qDebug()<<"----------------------------------";
-            QByteArray encode;
-            for (int i = 0; i < code.size(); ++i) {
-                QString uc0 = code.at(i);
-                if(uc0.contains(r.at(0))){
-                    encode.append(r.at(1));
-                }else if(uc0.contains(r.at(2))){
-                    encode.append(r.at(3));
-                }else if(uc0.contains(r2.at(0))){
-                    encode.append(r2.at(1));
-                }else if(uc0.contains(r2.at(2))){
-                    encode.append(r2.at(3));
-                }else{
-                    encode.append(uc0);
-                }
-                //qDebug()<<"UC0: "<<uc0;
-            }
-            QByteArray nom;
-            nom.append(fileList[i]);
-            //qDebug()<<nom;
-            //qDebug()<<"----------------------------------"<<nom;
-
-            QByteArray nomCod;
-            nomCod.append(nom.toHex());
-            //qDebug()<<"----------------------------------"<<nomCod;
-            QByteArray nomFinal;
-            for (int i = 0; i < nomCod.size(); ++i) {
-                QString uc0;
-                uc0.append(nomCod.at(i));
-                if(uc0.contains(r.at(0))){
-                    nomFinal.append(r.at(1));
-                }else if(uc0.contains(r.at(2))){
-                    nomFinal.append(r.at(3));
-                }else if(uc0.contains(r2.at(0))){
-                    nomFinal.append(r2.at(1));
-                }else if(uc0.contains(r2.at(2))){
-                    nomFinal.append(r2.at(3));
-                }else{
-                    nomFinal.append(uc0);
-                }
-                //qDebug()<<"UC1: "<<uc0;
-            }
-            //qDebug()<<"----------------------------------"<<nomFinal;
-            //entradaUpk << ru;
-
-            entradaUpk << nomFinal;
-            entradaUpk << "I";
-            entradaUpk << encode;
-            entradaUpk << "O";
-            //            dataUpk.append(nomFinal);
-            //            dataUpk.append("I");
-            //            dataUpk.append(encode);
-            //            dataUpk.append("O");
-            nomFinal = "";
-            archOrig.close();
-        }
-    }
-
-    entradaUpk << "L";
-    //dataUpk.append("L");
-    QByteArray msBA;
-    msBA.append(QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()));
-    //qDebug()<<"MsFull: "<<dateTime2.toMSecsSinceEpoch();
-    //qDebug()<<"Milisegundos: "<<millisecondsDiff;
-    //qDebug()<<"MilisegundosBA: "<<msBA;
-    entradaUpk << msBA;
-    //dataUpk.append(msBA);
-    //QString dataCod = encData(dataUpk, user, key);
-    //entradaUpk<<dataCod;
-    upk.close();
-    return true;*/
 }
 
 bool UK::carpetaAUpk(QString carpeta, QString nombreUpk, QString usuario, QString clave, QString carpetaDestino)
@@ -499,8 +136,6 @@ bool UK::downloadRemoteFolder(QString urlFolder, QString list, QString dirDestin
         if(qml.exists()){
             qml.remove();
         }
-
-
         if(qml.open(QIODevice::WriteOnly)){
             if(debugLog){
                 if(debugLog){
@@ -511,15 +146,6 @@ bool UK::downloadRemoteFolder(QString urlFolder, QString list, QString dirDestin
                     log(lba);
                 }
             }
-            // QTextStream entraQML(&qml);
-            /*QString setExt1;
-            setExt1.append(m0.at(i));
-            QString setExt2=setExt1.mid(setExt1.length()-4, setExt1.length()-1);
-            qDebug()<<"Extensiòn: "<<setExt2;
-            if(setExt2==".qml"){
-                entraQML.setCodec("UTF-8");
-            }
-            entraQML << code;*/
             qml.write(code);
             qml.close();
         }else{
@@ -529,413 +155,10 @@ bool UK::downloadRemoteFolder(QString urlFolder, QString list, QString dirDestin
                 lba.append(ro);
                 log(lba);
             }
-
         }
     }
     return true;
 }
-
-
-
-
-bool UK::instalarApp(QString appName, QString user, QString key, QString dirDestino)
-{
-
-    QString pq;
-    pq.append(dirDestino);
-    pq.append("/");
-    if(debugLog){
-        lba="";
-        lba.append("UPKs Folder: ");
-        lba.append(pq);
-        log(lba);
-    }
-    QDir dir0(pq);
-    if (!dir0.exists()) {
-        dir0.mkpath(".");
-    }
-
-    QByteArray sep;
-    sep.append("XX-@@-XX");//58582d40402d5858
-    QByteArray upkData;
-    QByteArray urlUPK;
-    urlUPK.append(dirDestino);
-    urlUPK.append("/");
-    urlUPK.append(appName);
-    urlUPK.append(".upk");
-    QFile upk(urlUPK);
-    if(upk.exists()){
-        upk.remove();
-    }
-    QTextStream entradaUpk(&upk);
-    entradaUpk.setCodec("UTF-8");
-    if(upk.open(QIODevice::WriteOnly)){
-        if(debugLog){
-            lba="";
-            lba.append("Making UPK ");
-            lba.append(urlUPK);
-            log(lba);
-        }
-    }else{
-        if(debugLog){
-            lba="";
-            lba.append("Error while making UPK ");
-            lba.append(urlUPK);
-            log(lba);
-        }
-        return false;
-    }
-
-    QByteArray urlJsonFiles;
-    urlJsonFiles.append(host());
-    urlJsonFiles.append("/getSources.php?appName=");
-    urlJsonFiles.append(appName);
-    urlJsonFiles.append("&user=");
-    urlJsonFiles.append(user);
-    urlJsonFiles.append("&key=");
-    urlJsonFiles.append(key);
-    urlJsonFiles.append("&r=");
-    urlJsonFiles.append(QDateTime::currentDateTime().toString("zzz"));
-    if(debugLog){
-        lba="";
-        lba.append("Url PHP GET SOURCES: ");
-        lba.append(urlJsonFiles);
-        //log(lba);
-    }
-    QByteArray jsonSources;
-    jsonSources.append(getHttpFile(urlJsonFiles.constData()));
-    //qDebug()<<"jsonSources: "<<jsonSources;
-    QJsonDocument doc = QJsonDocument::fromJson(jsonSources);
-    QJsonObject raiz = doc.object();
-    //qDebug()<<raiz.value("f0").toString();
-    QByteArray r="6226";
-    QByteArray r2="6226";
-    //QByteArray ru="AAAAAAAAAAAAAAA";
-    QByteArray ru;
-    QString cdt = QDateTime::currentDateTime().toString("z");
-    if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
-        //funciona
-        r="9cc9";
-        r2="1dd1";
-    }else if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
-        //funciona
-        r="9dd9";
-        r2="1cc1";
-    }else{
-        //funciona
-        r="6dd6";
-        r2="2cc2";
-    }
-    QByteArray segUser;
-    segUser.append(user);
-    for (int i = 0; i < 40-user.size()-1; ++i) {
-        segUser.append("|");
-    }
-    segUser.append("-");
-    QByteArray segKey;
-    segKey.append(key);
-    for (int i = 0; i < 20-key.size(); ++i) {
-        segKey.append("|");
-    }
-    //qDebug()<<"Long Seg User: "<<segUser<<" "<<segUser.size();
-    QByteArray suH=segUser.toHex();
-    QByteArray suHC;
-    for (int i = 0; i < suH.size(); ++i) {
-        QString uc0;
-        uc0.append(suH.at(i));
-        if(uc0.contains(r.at(0))){
-            suHC.append(r.at(1));
-        }else if(uc0.contains(r.at(2))){
-            suHC.append(r.at(3));
-        }else if(uc0.contains(r2.at(0))){
-            suHC.append(r2.at(1));
-        }else if(uc0.contains(r2.at(2))){
-            suHC.append(r2.at(3));
-        }else{
-            suHC.append(uc0);
-        }
-        //suHC.append();
-    }
-
-    QByteArray skH=segKey.toHex();
-    QByteArray skHC;
-    for (int i = 0; i < skH.size(); ++i) {
-        QString uc0;
-        uc0.append(skH.at(i));
-        if(uc0.contains(r.at(0))){
-            skHC.append(r.at(1));
-        }else if(uc0.contains(r.at(2))){
-            skHC.append(r.at(3));
-        }else if(uc0.contains(r2.at(0))){
-            skHC.append(r2.at(1));
-        }else if(uc0.contains(r2.at(2))){
-            skHC.append(r2.at(3));
-        }else{
-            skHC.append(uc0);
-        }
-        //suHC.append();
-    }
-    //qDebug()<<"suHC: "<<suHC;
-    //qDebug()<<"skHC: "<<skHC;
-
-    ru.append(suHC);
-    ru.append(skHC);
-    //ru.append(segUser);
-    //ru.append(segKey);
-
-    //qDebug()<<"MSCT:"<<cdt<<" R: "<<r<<" R2: "<<r2;
-    entradaUpk << r;
-    entradaUpk << r2;
-    entradaUpk << ru;
-    for (int i = 0; i < raiz.count(); ++i) {
-        QByteArray nf;
-        nf.append("f");
-        nf.append(QString::number(i));
-        //qDebug()<<raiz.value(nf.constData()).toString();
-        QByteArray rd;
-        rd.append(pq);
-        rd.append(raiz.value(nf.constData()).toString());
-        QByteArray ro;
-        ro.append(host());
-        ro.append("/users/");
-        ro.append(user);
-        ro.append("/sources/");
-        ro.append(appName);
-        ro.append("/");
-        ro.append(raiz.value(nf.constData()).toString());
-        ro.append("?r=");
-        ro.append(QDateTime::currentDateTime().toString("zzz"));
-        QString code;
-        code.append(getHttpFile(ro).toHex());
-        QByteArray encode;
-        for (int i = 0; i < code.size(); ++i) {
-            QString uc0 = code.at(i);
-            if(uc0.contains(r.at(0))){
-                encode.append(r.at(1));
-            }else if(uc0.contains(r.at(2))){
-                encode.append(r.at(3));
-            }else if(uc0.contains(r2.at(0))){
-                encode.append(r2.at(1));
-            }else if(uc0.contains(r2.at(2))){
-                encode.append(r2.at(3));
-            }else{
-                encode.append(uc0);
-            }
-        }
-        QByteArray nom;
-        nom.append(raiz.value(nf.constData()).toString());
-        QByteArray nomCod;
-        nomCod.append(nom.toHex());
-        QByteArray nomFinal;
-        for (int i = 0; i < nomCod.size(); ++i) {
-            QString uc0;
-            uc0.append(nomCod.at(i));
-            if(uc0.contains(r.at(0))){
-                nomFinal.append(r.at(1));
-            }else if(uc0.contains(r.at(2))){
-                nomFinal.append(r.at(3));
-            }else if(uc0.contains(r2.at(0))){
-                nomFinal.append(r2.at(1));
-            }else if(uc0.contains(r2.at(2))){
-                nomFinal.append(r2.at(3));
-            }else{
-                nomFinal.append(uc0);
-            }
-        }
-        entradaUpk << nomFinal;
-        entradaUpk << "I";
-        entradaUpk << encode;
-        entradaUpk << "O";
-        nomFinal = "";
-    }
-    entradaUpk << "L";
-    QByteArray msBA;
-    msBA.append(QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()));
-    entradaUpk << msBA;
-    upk.close();
-    return true;
-}
-
-/*bool UK::extraerUpk(QString appName, QString origen, QString dirDestino, QString user, QString key)
-{
-
-    /*
-    qDebug()<<"Extract with appName:"<<appName;
-    qDebug()<<"Extract with origin:"<<origen;
-    qDebug()<<"Extract with dirDestine:"<<dirDestino;
-    qDebug()<<"Extract with user:"<<user;
-    qDebug()<<"Extract with key:"<<key;
-
-
-
-    QByteArray urlUPK;
-    urlUPK.append(origen);
-    urlUPK.append("/");
-    urlUPK.append(appName);
-    urlUPK.append(".upk");
-    QDir dir0(dirDestino);
-    if (!dir0.exists()) {
-        dir0.mkpath(".");
-    }
-    QFile upk(urlUPK);
-
-    if(upk.open(QIODevice::ReadOnly)){
-        //qDebug()<<"Extrayendo UPK "<<urlUPK;
-        //qDebug()<<"Destino UPK "<<dirDestino;
-    }else{
-        if(debugLog){
-            qDebug()<<"Error while opening UPK "<<urlUPK;
-        }
-        return false;
-    }
-    QByteArray arch;
-    QByteArray nom;
-    QTextStream stream(&upk);
-    stream.setCodec("UTF-8");
-    int nl=0;
-    int tipo=0;
-    QByteArray r;
-    QByteArray r2;
-    QString passData;
-    QString msMk;
-    QByteArray passDataBA;
-    bool passDataWrite=false;
-    do{
-        QString l;
-        l.append(stream.read(1));
-        QByteArray enc;
-        if(l.contains(r.at(0))){
-            enc.append(r.at(1));
-        }else if(l.contains(r.at(2))){
-            enc.append(r.at(3));
-        }else if(l.contains(r2.at(0))){
-            enc.append(r2.at(1));
-        }else if(l.contains(r2.at(2))){
-            enc.append(r2.at(3));
-        }else{
-            enc.append(l);
-        }
-        if(l.contains("O"))
-        {
-            //qDebug()<<"Extrayendo "<<QByteArray::fromHex(nom);
-            QString rdf;
-            rdf.append(dirDestino);
-            //rdf.append("/");
-            rdf.append(QByteArray::fromHex(nom));
-            //qDebug()<<"Creando archivo fuente "<<rdf;
-            QFile f1(rdf);
-            if(f1.open(QIODevice::WriteOnly)){
-                f1.write(QByteArray::fromHex(arch));
-            }
-            arch = "";
-            nom = "";
-            tipo=0;
-        }else if(l.contains("I")){
-            tipo=1;
-            if(!passDataWrite){
-                //qDebug()<<"PassData 100: "<<passData;
-                //qDebug()<<"R1 100: "<<r;
-                //qDebug()<<"R2 100: "<<r2;
-                QByteArray decSegUK;
-                for (int i2 = 0; i2 < passDataBA.size(); ++i2) {
-                    QString l2;
-                    l2.append(passDataBA.at(i2));
-                    //QByteArray enc;
-                    if(l2.contains(r.at(0))){
-                        decSegUK.append(r.at(1));
-                    }else if(l2.contains(r.at(2))){
-                        decSegUK.append(r.at(3));
-                    }else if(l2.contains(r2.at(0))){
-                        decSegUK.append(r2.at(1));
-                    }else if(l2.contains(r2.at(2))){
-                        decSegUK.append(r2.at(3));
-                    }else{
-                        decSegUK.append(l2);
-                    }
-                    //decSegUK.append(l2);
-                    //qDebug()<<"DEDSegUK 103: "<<decSegUK;
-                }
-                //qDebug()<<"DEDSegUK 103: "<<decSegUK;
-                passData.append(QByteArray::fromHex(decSegUK));
-                //qDebug()<<"PassData 101: "<<passData;
-                QStringList m0 = passData.split("|-");
-                if(m0.size()>1){
-                    QString cu = m0.at(0);
-                    QString ck = m0.at(1);
-                    QString nuser = cu.replace("|", "");
-                    QString nkey = ck.replace("|", "");
-                    if((user!=nuser||key!=nkey)&&nuser!="unik-free"&&nkey!="free"){
-                        qDebug()<<"UPKEP: "<<" "<<appName<<" "<<user<<" "<<nuser<<" "<<key<<" "<<nkey;
-                        return false;
-                    }else{
-                        QByteArray itemPass;
-                        itemPass.append("{\"user\":\"");
-                        itemPass.append(user);
-                        itemPass.append("\",");
-                        itemPass.append("\"key\":\"");
-                        itemPass.append(key);
-                        itemPass.append("\"}");
-                        //qDebug()<<"Json Pass: "<<itemPass;
-                        QString rdf;
-                        rdf.append(dirDestino);
-                        //rdf.append("/");
-                        rdf.append("pass.json");
-                        //qDebug()<<"Creando archivo fuente "<<rdf;
-                        QFile f1(rdf);
-                        if(f1.open(QIODevice::WriteOnly)){
-                            f1.write(itemPass);
-                            //qDebug()<<"Json Pass created "<<rdf;
-                        }
-                    }
-                    //qDebug()<<"Extract User: "<<user<<" Key: "<<key;
-                }else{
-                    if(debugLog){
-                        qDebug()<<"Error extract! pass data not found";
-                    }
-                    return false;
-                }
-            }
-            passDataWrite=true;
-        }else  if(nl<4){
-            r.append(l);
-        }else  if(nl>=4&&nl<8){
-            r2.append(l);
-        }else  if(nl>=8&&nl<=67+60){
-            passDataBA.append(l);
-            //qDebug()<<"PBA:"<<passDataBA;
-            //r2.append(l);
-        }else if(l.contains("L")){
-            tipo=2;
-        }else{
-            if(tipo==0){
-                nom.append(enc);
-            }if(tipo==1){
-                arch.append(enc);
-            }if(tipo==2){
-                msMk.append(l);
-                //qDebug()<<"msMK:"<<msMk;
-            }else{
-
-            }
-        }
-        nl++;
-    }while (nl<upk.size());
-    if(nl==0){
-        return false;
-    }
-    if(enabledInj){
-        QString rmain;
-        rmain.append(dirDestino);
-        //rdf.append("/");
-        rmain.append("main.qml");
-        QByteArray msMKBA;
-        msMKBA.append("\nproperty var msMK: ");
-        msMKBA.append(msMk);
-        msMKBA.append(";\n");
-        inject(rmain, msMKBA);
-    }
-    return true;
-}*/
 
 bool UK::mkUpk(QByteArray folder, QByteArray upkName, QByteArray user, QByteArray key, QByteArray folderDestination)
 {
@@ -944,7 +167,6 @@ bool UK::mkUpk(QByteArray folder, QByteArray upkName, QByteArray user, QByteArra
     sep.append(user);
     sep.append(key);
     if(debugLog){
-        //qDebug()<<"mkupk con "<<user<<" "<<key;
         QByteArray log1;
         log1.append("Making upk from folder ");
         log1.append(folder);
@@ -976,7 +198,6 @@ bool UK::mkUpk(QByteArray folder, QByteArray upkName, QByteArray user, QByteArra
         lba.append(dir.path());
         log(lba);
     }
-
     //Iterando la lista de archivos
     QStringList fileList = dir.entryList();
     if(debugLog){
@@ -1069,11 +290,6 @@ bool UK::mkUpk(QByteArray folder, QByteArray upkName, QByteArray user, QByteArra
 bool UK::upkToFolder(QByteArray upk, QByteArray user, QByteArray key, QByteArray folderDestination)
 {
     QFile upkFile(upk);
-    /*lba="";
-    lba.append("upktofolder con ");
-    lba.append(upk);*/
-    //log(lba);
-    //qDebug()<<"upktofolder con "<<user<<" "<<key;
 
     //Eliminar el upk existente
     if(!upkFile.exists()){
@@ -1122,15 +338,12 @@ bool UK::upkToFolder(QByteArray upk, QByteArray user, QByteArray key, QByteArray
     do{
         fileData.append(stream.read(1));
         nl++;
-        //qDebug()<<"---------->: "<<nl;
-    }while (nl<upkFile.size());
+        }while (nl<upkFile.size());
     upkFile.close();
 
-    //QString dec=decData(upkFile.readAll(), user, key);
     QString dec;
     dec.append(decData(fileData, user, key));
     QStringList l1=dec.split(nsep);
-    //qDebug()<<"Upk---------->: "<<dec;
     for (int i = 0; i < l1.size(); ++i) {
         QString f=l1.at(i);
 
@@ -1139,18 +352,14 @@ bool UK::upkToFolder(QByteArray upk, QByteArray user, QByteArray key, QByteArray
         nsep2.append("X+X");
 
         QStringList m0=f.split(nsep2);
-        //qDebug()<<"File---------->: "<<i<<" S:"<<m0.size()<<" "<<nsep<<"-->"<<f<<"\n\n\n";
-        //qDebug()<<"File---------->: "<<i<<m0.at(0)<<"\n\n\n"<<m0.at(1)<<"\n\n\n";
         if(m0.size()!=2||m0.size()>2){
              qDebug()<<"upkToFolder fail in each "<<i <<" data segments "<<m0.size();
             return false;
         }
-
         QByteArray urlNf;
         urlNf.append(folderDestination);
         urlNf.append("/");
         urlNf.append(m0.at(0));
-        //qDebug()<<"File---------->: "<<urlNf;
 
         QFile f1(urlNf);
         if(f1.open(QIODevice::WriteOnly)){
@@ -1204,26 +413,11 @@ bool UK::isFree(QString upk)
     do{
         fileData.append(stream.read(1));
         nl++;
-        //qDebug()<<"---------->: "<<nl;
-    }while (nl<upkFile.size());
+        }while (nl<upkFile.size());
     upkFile.close();
-
-    //lba="fileData: \n";
-    //lba.append(fileData);
-    //log(lba);
-
-    //QString dec=decData(upkFile.readAll(), user, key);
     QString dec;
     dec.append(decData(fileData, "unik-free", "free"));
     QStringList l1=dec.split(nsep);
-    /*lba="";
-    lba.append("------------------------------>>>>___");
-    lba.append(QString::number(l1.size()));
-    log(lba);*/
-    //qDebug()<<"Upk---------->: "<<dec;
-   /*if(l1.size()<2){
-    return false;
-   }*/
     for (int i = 0; i < l1.size(); ++i) {
         QString f=l1.at(i);
 
@@ -1232,8 +426,6 @@ bool UK::isFree(QString upk)
         nsep2.append("X+X");
 
         QStringList m0=f.split(nsep2);
-        //qDebug()<<"File---------->: "<<i<<" S:"<<m0.size()<<" "<<nsep<<"-->"<<f<<"\n\n\n";
-        //qDebug()<<"File---------->: "<<i<<m0.at(0)<<"\n\n\n"<<m0.at(1)<<"\n\n\n";
         if(m0.size()!=2||m0.size()>2){
              qDebug()<<"upkToFolder fail in each "<<i <<" data segments "<<m0.size();
             return false;
@@ -1252,9 +444,7 @@ bool UK::loadUpk(QString upkLocation, bool closeAppLauncher, QString user, QStri
     QStringList m0 = upkLocation.split("/");
     QString ext = upkLocation.mid(upkLocation.size()-4, upkLocation.size()-1);
     QString c1;
-    //qDebug()<<"EXT: "<<ext;
     if(m0.size()>=1&&ext==".upk"){
-        //qDebug()<<"Es EXT: "<<ext;
         QString c0 = m0.at(m0.size()-1);
         c1 = c0.replace(".upk", "");
         if(c1==""||c1=="/"||c1=="\\"||c1=="\\\\"){
@@ -1407,7 +597,7 @@ bool UK::downloadGit(QByteArray url, QByteArray localFolder)
     p1->start(cl);
     p1->deleteLater();
     while (p1->waitForFinished()) {
-        qInfo(".--------------------");
+        qInfo("waiting where git dowloading...");
     }
     cl="";
     cl.append("cp -TRv ");
@@ -1492,15 +682,12 @@ bool UK::inject(QString mainQml, QString inj)
                 break;
             }
         }
-        //qDebug()<<"Seg: "<<seg;
         dataCorr = data.replace(seg.constData(), "ApplicationWindow ");
-
     }else{
         return false;
     }
     m.close();
 
-    //qDebug()<<"DataCorr: "<<dataCorr;
     QStringList m0 = dataCorr.split("ApplicationWindow {");
     if(m0.size()>1){
         QFile m2(mainQml);
@@ -1573,15 +760,7 @@ bool UK::run(QString commandLine)
     proc = new QProcess(this);
     connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(salidaRun()));
     connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(salidaRunError()));
-    //connect(proc, SIGNAL(finished(int)),this, SLOT(finalizaRun(int)));
-    //connect(proc, SIGNAL(finished(int)),proc, SLOT(deleteLater()));
-
-    //proc->startDetached(commandLine);
-    //proc->waitForReadyRead();
     proc->start(commandLine);
-#ifdef Q_OS_LINUX
-    //proc->deleteLater();
-#endif
     if(proc->isOpen()){
         setRunCL(true);
         QString msg;
@@ -1652,9 +831,7 @@ QString UK::getPath(int path)
 #endif
 #ifdef Q_OS_LINUX
     if(path==1){//App location
-        //r = QCoreApplication::applicationFilePath();
         r = QDir::currentPath();
-        //r = qApp->applicationDirPath();
     }
 #endif
     if(path==2){//Temp location
@@ -1715,7 +892,6 @@ QString UK::getPath(int path)
             lba.append("Folder ");
             lba.append(r);
             lba.append(" exist.");
-            //log(lba);
         }
     }
     return r;
@@ -1727,9 +903,7 @@ QString UK::encData(QByteArray d, QString user, QString key)
     QByteArray upkData;
     QByteArray r="6226";
     QByteArray r2="6226";
-    //QByteArray ru="AAAAAAAAAAAAAAA";
     QByteArray ru;
-    //ru.append("111111111111111111111111111111111111111111111111111111111111");
     QString cdt = QDateTime::currentDateTime().toString("z");
     if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
         //funciona
@@ -1755,7 +929,6 @@ QString UK::encData(QByteArray d, QString user, QString key)
     for (int i = 0; i < 20-key.size(); ++i) {
         segKey.append("|");
     }
-    //qDebug()<<"Long Seg User: "<<segUser<<" "<<segUser.size();
     QByteArray suH=segUser.toHex();
     QByteArray suHC;
     for (int i = 0; i < suH.size(); ++i) {
@@ -1772,7 +945,6 @@ QString UK::encData(QByteArray d, QString user, QString key)
         }else{
             suHC.append(uc0);
         }
-        //suHC.append();
     }
 
     QByteArray skH=segKey.toHex();
@@ -1791,7 +963,6 @@ QString UK::encData(QByteArray d, QString user, QString key)
         }else{
             skHC.append(uc0);
         }
-        //suHC.append();
     }
     ru.append(suHC);
     ru.append(skHC);
@@ -1807,25 +978,16 @@ QString UK::encData(QByteArray d, QString user, QString key)
         cru2=cru1;
     }
 
-
-
     QByteArray ru2;
     ru2.append(cru2);
-
-    //qDebug()<<"MSCT:"<<cdt<<" R: "<<r<<" R2: "<<r2;
     QString ret0="";
     ret0.append(r);
     ret0.append(r2);
-    //ret.append(nru.replace("7c7c7c7c7c7c7c7c7c7c","313573356538387c"));
     ret0.append(ru2);
-    //qDebug()<<"RU length: "<<ru.size();
-    //qDebug()<<"RU2 : "<<ru2;
     QString c;
     c.append(d);
-    //qDebug()<<"--->>>"<<c;
     QByteArray codeUtf8;
     codeUtf8.append(c.toUtf8());
-    //qDebug()<<"--->>>2"<<codeUtf8;
     QString code;
     code.append(codeUtf8.toHex());
     QByteArray encode;
@@ -1842,7 +1004,6 @@ QString UK::encData(QByteArray d, QString user, QString key)
         }else{
             encode.append(uc0);
         }
-        //qDebug()<<"UC0: "<<uc0;
     }
 
     ret0.append("||||||");
@@ -1850,14 +1011,6 @@ QString UK::encData(QByteArray d, QString user, QString key)
     ret0.append(encode);
     ret0.append("O");
     ret0.append(ru);
-
-    /*QString fcru1=ret0.replace("22", "@");
-                                                 QString fcru2=fcru1.replace("33", "?");
-                                                 QString fcru3=fcru2.replace("66", "&");
-                                                 QString comp = compData(ret0);
-                                                 QString descomp = desCompData(comp);
-                                                 qDebug()<<"Compress... "<<comp;
-                                                 qDebug()<<"DesCompress... "<<descomp;*/
     return compData(ret0);
 }
 
@@ -1903,13 +1056,10 @@ QString UK::decData(QByteArray d0, QString user, QString key)
         }else if(l.contains("I")){
             tipo=1;
             if(!passDataWrite){
-                //qDebug()<<"PassDataBA: "<<passDataBA;
-                //qDebug()<<"PassData2: "<<QByteArray::fromHex(passDataBA);
                 QByteArray decSegUK;
                 for (int i2 = 0; i2 < passDataBA.size(); ++i2) {
                     QString l2;
                     l2.append(passDataBA.at(i2));
-                    //QByteArray enc;
                     if(l2.contains(r.at(0))){
                         decSegUK.append(r.at(1));
                     }else if(l2.contains(r.at(2))){
@@ -1925,14 +1075,10 @@ QString UK::decData(QByteArray d0, QString user, QString key)
                 passData.append(QByteArray::fromHex(decSegUK));
                 QString pd2 = passData.replace("x=33;r=60|","|");
                 QString pd3 = pd2.replace("z=6;|","|");
-                //qDebug()<<"PassData: "<<passData;
-                //qDebug()<<"PassData2: "<<pd3;
                 QStringList m0 = pd3.split("|-");
                 if(m0.size()>1){
                     QString cu = m0.at(0);
-                    //QString cu2 = cu.replace("w*zsZ<zk<|","");
                     QString ck = m0.at(1);
-                    //QString ck2 = ck.replace("ÇÇ§É§ÇÉÇÇ§","");
                     QString nuser = cu.replace("|", "");
                     QString nkey = ck.replace("|", "");
                     if(user!=nuser||key!=nkey){
@@ -1945,7 +1091,6 @@ QString UK::decData(QByteArray d0, QString user, QString key)
                         log(lba);
                     }
                     return "";
-                    //return false;
                 }
             }
             passDataWrite=true;
@@ -1955,9 +1100,7 @@ QString UK::decData(QByteArray d0, QString user, QString key)
             r2.append(l);
         }else  if(i>=8&&i<=67+60){
             passDataBA.append(l);
-
-            //r2.append(l);
-        }else{
+    }else{
             if(tipo==0){
                 //nom.append(enc);
             }else{
@@ -1967,7 +1110,6 @@ QString UK::decData(QByteArray d0, QString user, QString key)
     }
     QString nRet;
     nRet.append(QByteArray::fromHex(arch));
-    //}while (nl<d.size());
     return nRet;
 }
 
@@ -1975,7 +1117,6 @@ QQuickWindow *UK::mainWindow(int n)
 {
     if(!_engine->rootObjects().isEmpty()&&_engine->rootObjects().size()>=n){
         QObject *aw0 = _engine->rootObjects().at(n);
-        //qDebug()<<"awsplash: "<<aw0->property("objectName");
         QQuickWindow *window = qobject_cast<QQuickWindow*>(aw0);
         return window;
     }else{
@@ -1994,76 +1135,26 @@ QVariant UK::getProperty(const QString name)
     return _engine->rootContext()->property(name.toUtf8());
 }
 
-//void UK::showLogView(QQuickItem *item)
-//{
-//    QQuickItem *root = item;
-//    QQmlComponent component2(_engine, QUrl("qrc:/Unik.qml"));
-//    QQuickItem *itemLogView = qobject_cast<QQuickItem*>(component2.create());
-
-//    QQmlEngine::setObjectOwnership(itemLogView, QQmlEngine::CppOwnership);
-
-//    itemLogView->setParentItem(root);
-//    itemLogView->setProperty("z",999999);
-//    itemLogView->setProperty("objectName", "logViewActivo");
-//    itemLogView->setParent(_engine);
-//}
-
-//void UK::hideLogView(QQuickItem *item)
-//{
-
-//    QObject *root = _engine->rootObjects().at(1);
-//    QObject *qmlObject = root->findChild<QObject*>("unik-launch");
-
-//        if (qmlObject == 0) {
-//            qDebug() << "'myObjectYo' NOT FOUND."; // main problem.
-//        }
-//        else {
-//            qmlObject->setProperty("visible", false);
-//            qDebug() << "yay!";
-//        }
-//}
-
-void UK::itemToFrame(QQuickItem *item)
-{
-    //ukIPF.itemToFrame(item);
-}
-
-void UK::loadImageToFrame(const QByteArray url)
-{
-    //ukIPF.loadFrame(url);
-}
-
-
 QByteArray UK::getHttpFile(QByteArray url)
 {
-    //setUkStd("getHttp: "+url);
-    //QString codigofuente;
     QEventLoop eventLoop;
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
     QNetworkRequest req(QUrl(url.constData()));
-    //req.setHeader(QNetworkRequest::ContentTypeHeader,
-    //          "text/html; charset=utf-8");
 
     QNetworkReply *reply = mgr.get(req);
-    //connect(reply, SIGNAL(finished()), this, SLOT(sendFinished()));
     connect(reply,SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
     eventLoop.exec();
     QByteArray err;
     if (reply->error() == QNetworkReply::NoError) {
 
         return reply->readAll();
-        //codigofuente.append("----");
-        //codigofuente.append(reply->readAll());
-        //qDebug()<<codigofuente.toUtf8();
         delete reply;
     }else if (reply->error() == QNetworkReply::ContentNotFoundError) {
         err.append("Error:404");
         return err;
         delete reply;
     }else{
-        //codigofuente.append(reply->errorString());
-
         if(debugLog){
             lba="";
             lba.append("Failure ");
@@ -2074,117 +1165,12 @@ QByteArray UK::getHttpFile(QByteArray url)
         return err;
         delete reply;
     }
-    //QByteArray codificadoAUtf8;
-    //codificadoAUtf8.append(codigofuente.toUtf8());
-    //qDebug()<<"RETORNA SENDREQUEST"<<codificadoAUtf8;
     return "";
 }
 
 void UK::httpReadyRead()
 {
-    /*//file is a QFile that is opened when the download starts
-    if (file) {
-        QByteArray qba = reply2->readAll();
-        //keep track of how many bytes have been written to the file
-        qDebug()<<"----SSSSSS: "<<qba;
-        file->flush();
-        bytesWritten = file->size();
-        //bytesWritten += qba.size();
-        file->write(QByteArray::fromBase64(qba));
-        //dzip.append(qba);
-    }*/
-}
-
-void UK::startRequest(QUrl url)
-{
-    //doResume is set in httpFinished() if an error occurred
-    if (doResume) {
-        QNetworkRequest req(url);
-        //bytesWritten is incremented in httpReadyRead()
-        QByteArray rangeHeaderValue;
-        rangeHeaderValue.append("bytes=");
-        rangeHeaderValue.append(QByteArray::number(bytesWritten));
-        rangeHeaderValue.append("-");
-        QSslConfiguration configSsl = QSslConfiguration::defaultConfiguration();
-        configSsl.setProtocol(QSsl::AnyProtocol);
-        req.setSslConfiguration(configSsl);
-        req.setRawHeader("Range",rangeHeaderValue);
-        qnam = new QNetworkAccessManager(this);
-        reply2 = qnam->get(req);
-        connect(reply2, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(fileGetError(QNetworkReply::NetworkError)));
-        connect(reply2, SIGNAL(finished()), this, SLOT(httpFinished()));
-        connect(reply2, SIGNAL(readyRead()), this, SLOT(httpReadyRead()));
-
-    } else {
-        qnam = new QNetworkAccessManager(this);
-        QNetworkRequest req(url);
-        QSslConfiguration configSsl = QSslConfiguration::defaultConfiguration();
-        configSsl.setProtocol(QSsl::AnyProtocol);
-        req.setSslConfiguration(configSsl);
-        reply2 = qnam->get(req);
-        connect(reply2, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(fileGetError(QNetworkReply::NetworkError)));
-        connect(reply2, SIGNAL(finished()), this, SLOT(httpFinished()));
-        connect(reply2, SIGNAL(readyRead()), this, SLOT(httpReadyRead()));
-
-    }
-    //slot connections omitted for brevity
-}
-
-//connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(fileGetError(QNetworkReply::NetworkError)));
-void UK::fileGetError(QNetworkReply::NetworkError error) {
-    httpRequestAborted = true;
-}
-
-void UK::httpFinished() {    
-    if(reply2->error() == QNetworkReply::NoError){
-            QFile other("Download.zip");
-            other.open(QIODevice::WriteOnly);
-            other.write(reply2->readAll());
-            other.flush();
-            other.close();
-            qDebug()<<"Descargado";
-
-        }
-        reply2->deleteLater();
-}
-
-bool UK::downloadFile(QByteArray url, QByteArray ubicacion)
-{
-    log("downloadFile: "+url);
-    QEventLoop eventLoop;
-    QNetworkAccessManager mgr;
-    QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
-    QNetworkRequest req(QUrl(url.constData()));
-    QNetworkReply *reply = mgr.get(req);
-    connect(reply,SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
-    eventLoop.exec();
-    if (reply->error() == QNetworkReply::NoError) {
-
-        //QByteArray code;
-        //code.append(reply->readAll());
-        QFile fileDownloaded(ubicacion);
-        if(fileDownloaded.open(QIODevice::WriteOnly)){
-            if(debugLog){
-                if(debugLog){
-                    log("File "+url+" downloaded in "+ubicacion);
-                }
-            }
-        }
-        fileDownloaded.write(reply->readAll());
-        fileDownloaded.close();
-        return true;
-        delete reply;
-    }else{
-        if(debugLog){
-            QByteArray log100;
-            log100.append("Failure ");
-            log100.append(reply->errorString());
-            log(log100);
-        }
-        return false;
-        delete reply;
-    }
-    return false;
+    //...
 }
 
 bool UK::downloadZipFile(QByteArray url, QByteArray ubicacion)
@@ -2299,13 +1285,11 @@ void UK::sendFile(QString file, QString phpReceiver)
 
 void UK::uploadProgress(qint64 bytesSend, qint64 bytesTotal)
 {
-    //qDebug()<<"Enviados: "<<bytesSend<<" Total: "<<bytesTotal;
     double porc = (((double)bytesSend)/bytesTotal)*100;
     QString d1;
     d1.append(QString::number(porc));
     QStringList sd1=d1.split(".");
     setPorc(QString(sd1.at(0)).toInt(), 1);
-    //qDebug()<<"Porc: "<<getPorc();
 }
 
 void UK::downloadProgress(qint64 bytesSend, qint64 bytesTotal)
@@ -2355,11 +1339,8 @@ bool UK::sqliteInit(QString pathName)
 
 bool UK::sqliteCryptoInit(QString pathName, QString user, QString key)
 {
-    //return  dbc.openDataBase(pathName, user, key);
     return false;
 }
-
-
 
 bool UK::sqlQuery(QString query)
 {
@@ -2376,7 +1357,6 @@ bool UK::sqlQuery(QString query)
             d.append("sql query exec: ");
             d.append(query);
             log(d);
-            //setUkStd(d);
         }
         return true;
     }
@@ -2401,7 +1381,6 @@ QString UK::getJsonSql(QString table, QString query, QString type)
         cantcols = consultar.record().count();
         j="";
         if(debugLog){
-            //qDebug()<<"Sql query is exec...";
             log("Sql query is exec...");
             QString cc;
             cc.append("Column count: ");
@@ -2440,7 +1419,6 @@ QString UK::getJsonSql(QString table, QString query, QString type)
             row.append("}");
             j.append(row);
             v++;
-            //ret = consultar2.value(0).toString();
         }
         j.append("}");
         if(debugLog){
@@ -2448,12 +1426,10 @@ QString UK::getJsonSql(QString table, QString query, QString type)
             cc.append("JSON Query result: ");
             cc.append(j);
             cc.append("\n");
-            //qDebug()<<cc;
             log(cc.toUtf8());
         }
     }else{
         if(debugLog){
-            //qDebug()<<"Sql query no exec: "<<consultar.lastError();
             lba="";
             lba.append("Sql query no exec: ");
             lba.append(consultar.lastError().text());
@@ -2484,10 +1460,8 @@ QList<QObject *> UK::getSqlData(QString table, QString query, QString type)
         int v=0;
         while (consultar.next()) {
             Row *r = new Row(this);
-            //cantcols=0;
             for (int i = 0; i < cantcols; ++i) {
                 r->col.append(consultar.value(i).toString());
-                //cantcols++;
                 v++;
             }
             ret.append(r);
@@ -2499,18 +1473,15 @@ QList<QObject *> UK::getSqlData(QString table, QString query, QString type)
             cc.append(" ");
             cc.append("Column count result: ");
             cc.append(QString::number(cantcols));
-            //qDebug()<<cc;
             log(cc);
         }
     }else{
         if(debugLog){
-            //qDebug()<<"Sql query no exec: "<<consultar.lastError();
             lba="";
             lba.append("Sql query no exec: ");
             lba.append(consultar.lastError().text());
             log(lba);
         }
-        //return "{}";
     }
     return ret;
 }
@@ -2524,7 +1495,6 @@ bool UK::mysqlInit(QString hostName, QString dataBaseName, QString userName, QSt
         firstDB.setDatabaseName(dataBaseName);
         firstDB.setUserName(userName);
         firstDB.setPassword(password);
-        //firstDB.setPort();
         ret = firstDB.open();
     }else{
         secondDB = QSqlDatabase::addDatabase("QMYSQL");
@@ -2555,14 +1525,10 @@ bool UK::setFile(QByteArray n, QByteArray d)
 {
     QFile file(n);
     if (!file.open(QIODevice::WriteOnly)) {
-        if(debugLog){
             lba="";
             lba.append("Cannot open file for writing: ");
             lba.append(file.errorString());
-            log(lba);
-            //qDebug() << "Cannot open file for writing: "
-                     //<< qPrintable(file.errorString());
-        }
+            log(lba);    
         return false;
     }
     QTextStream out(&file);
@@ -2594,7 +1560,6 @@ bool UK::mkdir(const QString path)
 QString UK::getUpkTempPath()
 {
     QString pq;
-    //pq.append("/home/qt/des/fakeapps/sc1/");
     pq.append(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     pq.append("/");
     pq.append(QDateTime::currentDateTime().toString("hhmmss"));
@@ -2617,7 +1582,6 @@ QString UK::getUpksLocalPath()
     QSettings s;
     QString dupl;
     dupl.append(s.value("ws").toString());
-    //dupl.append("/unik");
     QDir dirUnikPackLocation(dupl);
     if (!dirUnikPackLocation.exists()) {
         dirUnikPackLocation.mkpath(".");
@@ -2630,18 +1594,7 @@ bool UK::fileExist(QByteArray fileName)
     QFile a(fileName);
     return a.exists();
 }
-/*void zip(QString filename , QString zip_filename)
-{
-   QFile infile(filename);
-   QFile outfile(zip_filename);
-   infile.open(QIODevice::ReadOnly);
-   outfile.open(QIODevice::WriteOnly);
-   QByteArray uncompressed_data = infile.readAll();
-   QByteArray compressed_data = qCompress(uncompressed_data, 9);
-   outfile.write(compressed_data);
-   infile.close();
-   outfile.close();
-}*/
+
 void UK::unZip(QString zip_filename, QString filename)
 {
        QFile infile(zip_filename);
@@ -2653,12 +1606,10 @@ void UK::unZip(QString zip_filename, QString filename)
        outfile.write(compressed_data);
        infile.close();
        outfile.close();
-
 }
 
 bool UK::createLink(QString location, QString name)
 {
-    //QFile::link(const QString &fileName, const QString &linkName)
     return false;
 }
 
@@ -2673,7 +1624,7 @@ void UK::crearPDF(QString captura, QString url, int orientacion)
     QPainter painter(&writer);
     writer.setPageSize(QPagedPaintDevice::A4);
     writer.setPageOrientation(QPageLayout::Portrait);
-    writer.setCreator("GolStop");
+    writer.setCreator("unik");
     //ESTO SETEADO EN 300 OBLIGA A ESCALAR * 4 LAS IMAGENES
     writer.setResolution(1200);//si esta en 600 va writer.logicalDpiX()*8*2
     //qDebug()<<"Resolucion de QPdfWriter: "<<writer.resolution();
@@ -2687,56 +1638,9 @@ void UK::crearPDF(QString captura, QString url, int orientacion)
         QPixmap pixmapTemp(captura);
         QPixmap pixmap = pixmapTemp.transformed(rm);
         pixmap.scaled(pixmapTemp.height(), pixmapTemp.width());
-        //painter.drawPixmap(QRect(0,0,793*8,1122*11),pixmap);
         painter.drawPixmap(QRect(0,0,writer.logicalDpiX()*8,writer.logicalDpiY()*11.4),pixmap);
     }
-    //painter.drawPixmap(QRect(0,0,793,1122),QPixmap(captura));
     painter.end();
-    /*void Control::crearPDF2(QString captura, QString url, int orientacion)
-    {
-        QStringList m0 = url.split("/");
-        QString carpeta="";
-        for (int i = 0; i < m0.size()-1; ++i) {
-            carpeta.append(m0.at(i));
-            if(i!=m0.size()-2){
-                carpeta.append("/");
-            }
-        }
-        qDebug()<<"Creando Carpeta de PDF: "<<carpeta;
-        QDir dir2(carpeta);
-        if (!dir2.exists()) {
-            dir2.mkpath(".");
-        }
-        QFile pdfAnterior(url);
-        if(pdfAnterior.exists()){
-            qDebug()<<"Eliminando PDF anterior: "<<url;
-            pdfAnterior.remove();
-        }
-
-        QPdfWriter writer(url);
-        QPainter painter(&writer);
-        writer.setPageSize(QPagedPaintDevice::A4);
-        writer.setPageOrientation(QPageLayout::Portrait);
-        writer.setCreator("GolStop");
-        //ESTO SETEADO EN 300 OBLIGA A ESCALAR * 4 LAS IMAGENES
-        writer.setResolution(1200);//si esta en 600 va writer.logicalDpiX()*8*2
-        //qDebug()<<"Resolucion de QPdfWriter: "<<writer.resolution();
-        //qDebug()<<"QPdfWriter Logical DPI X: "<<writer.logicalDpiX();
-        //qDebug()<<"QPdfWriter Logical DPI Y: "<<writer.logicalDpiY();
-        if(orientacion==1){
-            painter.drawPixmap(QRect(0,0,writer.logicalDpiX()*8,writer.logicalDpiY()*11.4),QPixmap(captura));
-        }else{
-            QMatrix rm;
-            rm.rotate(90);
-            QPixmap pixmapTemp(captura);
-            QPixmap pixmap = pixmapTemp.transformed(rm);
-            pixmap.scaled(pixmapTemp.height(), pixmapTemp.width());
-            //painter.drawPixmap(QRect(0,0,793*8,1122*11),pixmap);
-            painter.drawPixmap(QRect(0,0,writer.logicalDpiX()*8,writer.logicalDpiY()*11.4),pixmap);
-        }
-        //painter.drawPixmap(QRect(0,0,793,1122),QPixmap(captura));
-        painter.end();
-    }*/
 }
 
 QString UK::encPrivateData(QByteArray d, QString user, QString key)
@@ -2745,32 +1649,21 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
     QByteArray upkData;
     QByteArray r="6226";
     QByteArray r2="6226";
-    //QByteArray ru="AAAAAAAAAAAAAAA";
     QByteArray ru;
-    //ru.append("111111111111111111111111111111111111111111111111111111111111");
     QString cdt = QDateTime::currentDateTime().toString("z");
     if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
         //funciona
-        //r="9cc9";
-        //r2="1dd1";
         r="3cc3";
         r2="2dd2";
     }else if(cdt.at(0)=="1"||cdt.at(0)=="2"||cdt.at(0)=="3"){
         //funciona
-        //r="9dd9";
-        //r2="1cc1";
         r="2aa2";
         r2="3cc3";
     }else{
         //funciona
-        //r="6dd6";
-        //r2="2cc2";
         r="6006";
         r2="4cc4";
     }
-
-
-
     QByteArray segUser;
     segUser.append(user);
     for (int i = 0; i < 40-user.size()-1; ++i) {
@@ -2782,7 +1675,6 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
     for (int i = 0; i < 20-key.size(); ++i) {
         segKey.append("|");
     }
-    //qDebug()<<"Long Seg User: "<<segUser<<" "<<segUser.size();
     QByteArray suH=segUser.toHex();
     QByteArray suHC;
     for (int i = 0; i < suH.size(); ++i) {
@@ -2799,7 +1691,6 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
         }else{
             suHC.append(uc0);
         }
-        //suHC.append();
     }
 
     QByteArray skH=segKey.toHex();
@@ -2818,7 +1709,6 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
         }else{
             skHC.append(uc0);
         }
-        //suHC.append();
     }
     ru.append(suHC);
     ru.append(skHC);
@@ -2834,25 +1724,17 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
         cru2=cru1;
     }
 
-
-
     QByteArray ru2;
     ru2.append(cru2);
 
-    //qDebug()<<"MSCT:"<<cdt<<" R: "<<r<<" R2: "<<r2;
     QString ret0="";
     ret0.append(r);
     ret0.append(r2);
-    //ret.append(nru.replace("7c7c7c7c7c7c7c7c7c7c","313573356538387c"));
     ret0.append(ru2);
-    //qDebug()<<"RU length: "<<ru.size();
-    //qDebug()<<"RU2 : "<<ru2;
     QString c;
     c.append(d);
-    //qDebug()<<"--->>>"<<c;
     QByteArray codeUtf8;
     codeUtf8.append(c.toUtf8());
-    //qDebug()<<"--->>>2"<<codeUtf8;
     QString code;
     code.append(codeUtf8.toHex());
     QByteArray encode;
@@ -2868,8 +1750,7 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
             encode.append(r2.at(3));
         }else{
             encode.append(uc0);
-        }
-        //qDebug()<<"UC0: "<<uc0;
+        }        
     }
 
     ret0.append("||||||");
@@ -2878,13 +1759,6 @@ QString UK::encPrivateData(QByteArray d, QString user, QString key)
     ret0.append("O");
     ret0.append(ru);
 
-    /*QString fcru1=ret0.replace("22", "@");
-                                                 QString fcru2=fcru1.replace("33", "?");
-                                                 QString fcru3=fcru2.replace("66", "&");
-                                                 QString comp = compData(ret0);
-                                                 QString descomp = desCompData(comp);
-                                                 qDebug()<<"Compress... "<<comp;
-                                                 qDebug()<<"DesCompress... "<<descomp;*/
     return compData(ret0);
 }
 
@@ -2907,10 +1781,7 @@ QString UK::decPrivateData(QByteArray d0, QString user, QString key)
     bool passDataWrite=false;
 
     for (int i = 0; i < d.size(); ++i) {
-
-
-        //do{
-        QString l;
+       QString l;
         l.append(d.at(i));
         QByteArray enc;
         if(l.contains(r.at(0))){
@@ -2930,13 +1801,10 @@ QString UK::decPrivateData(QByteArray d0, QString user, QString key)
         }else if(l.contains("I")){
             tipo=1;
             if(!passDataWrite){
-                //qDebug()<<"PassDataBA: "<<passDataBA;
-                //qDebug()<<"PassData2: "<<QByteArray::fromHex(passDataBA);
                 QByteArray decSegUK;
                 for (int i2 = 0; i2 < passDataBA.size(); ++i2) {
                     QString l2;
                     l2.append(passDataBA.at(i2));
-                    //QByteArray enc;
                     if(l2.contains(r.at(0))){
                         decSegUK.append(r.at(1));
                     }else if(l2.contains(r.at(2))){
@@ -2952,20 +1820,12 @@ QString UK::decPrivateData(QByteArray d0, QString user, QString key)
                 passData.append(QByteArray::fromHex(decSegUK));
                 QString pd2 = passData.replace("x=33;r=60|","|");
                 QString pd3 = pd2.replace("z=6;|","|");
-                //qDebug()<<"PassData: "<<passData;
-                //qDebug()<<"PassData2: "<<pd3;
                 QStringList m0 = pd3.split("|-");
                 if(m0.size()>1){
                     QString cu = m0.at(0);
-                    //QString cu2 = cu.replace("w*zsZ<zk<|","");
                     QString ck = m0.at(1);
-                    //QString ck2 = ck.replace("ÇÇ§É§ÇÉÇÇ§","");
                     QString nuser = cu.replace("|", "");
                     QString nkey = ck.replace("|", "");
-                   /* qDebug()<<"nuser: "<<nuser;
-                    qDebug()<<"user: "<<user;
-                    qDebug()<<"nkey: "<<nkey;
-                    qDebug()<<"key: "<<key;*/
                     if(user!=nuser||key!=nkey){
                         return "";
                     }
@@ -2976,7 +1836,6 @@ QString UK::decPrivateData(QByteArray d0, QString user, QString key)
                         log(lba);
                     }
                     return "";
-                    //return false;
                 }
             }
             passDataWrite=true;
@@ -3002,8 +1861,6 @@ QString UK::decPrivateData(QByteArray d0, QString user, QString key)
             }
         }else  if(i>=8&&i<=67+60){
             passDataBA.append(l);
-
-            //r2.append(l);
         }else{
             if(tipo==0){
                 //nom.append(enc);
@@ -3014,14 +1871,12 @@ QString UK::decPrivateData(QByteArray d0, QString user, QString key)
     }
     QString nRet;
     nRet.append(QByteArray::fromHex(arch));
-    //}while (nl<d.size());
     return nRet;
 }
 
 QString UK::compData(QString d)
 {
     QString nd=d;
-    //qDebug()<<"lsim: "<<lsim<<" size: "<<lsim.size();
     for (int i = 0; i < lsim.size(); ++i) {
         QByteArray rs;
         rs.append(lsim.at(i));
@@ -3029,7 +1884,6 @@ QString UK::compData(QString d)
         rn.append(lnum.at(i));
         QString ad = nd;
         nd=ad.replace(rn, rs);
-        //qDebug()<<"ND "<<i<<": "<<nd;
     }
     return nd;
 }
@@ -3060,13 +1914,10 @@ void UK::descZip()
 {
     QByteArray file3;
     file3.append("/home/nextsigner/Documentos/nivelfluido-master.zip");
-    //file3.append("temp2.zip");
     qDebug()<<"unziping "<<file3<<"...";
     QByteArray file2;
-    //file2.append(getPath(3));
     file2.append("nivelfluido-master");
     unZip(file3, file2);
-    //qDebug()<<"unziping "<<;
 }
 
 void UK::downloadZipProgress(qint64 bytesSend, qint64 bytesTotal)

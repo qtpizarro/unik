@@ -6,7 +6,6 @@
 #include <QQuickImageProvider>
 #include <QSettings>
 
-//#include "qappli
 #include <stdio.h>
 #include <stdlib.h>
 

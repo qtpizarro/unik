@@ -208,7 +208,6 @@ signals:
     void debugLogChanged();
 
 public slots:
-    void ukInit();
     void ukClose(QQuickCloseEvent *close);
     void engineExited(int n);
     void engineQuited(QObject*);
@@ -219,15 +218,10 @@ public slots:
     //Funciones del Sistema Unik
     void setWorkSpace(QString ws);
     void definirCarpetaTrabajo(QString et);
-    void errorQML(QList<QQmlError> e);
-    void loadQml(QByteArray url);
-    void revInj();
-    void initRecInj(int ms);
     //void setSRC(QString c);
     bool folderToUpk(QString folder, QString upkName, QString user, QString key, QString folderDestination);
     bool carpetaAUpk(QString carpeta, QString nombreUpk, QString usuario, QString clave, QString carpetaDestino);
     bool downloadRemoteFolder(QString urlFolder, QString list, QString dirDestination);
-    bool instalarApp(QString appName, QString user, QString key, QString dirDestino);
     //bool extraerUpk(QString appName, QString origen, QString dirDestino, QString user, QString key);
     bool mkUpk(QByteArray folder, QByteArray upkName, QByteArray user, QByteArray key, QByteArray folderDestination);
     bool upkToFolder(QByteArray upk, QByteArray user, QByteArray key, QByteArray folderDestination);
@@ -249,20 +243,10 @@ public slots:
     QQuickWindow *mainWindow(int n);
     void setProperty(const QString name, const QVariant &value);
     QVariant getProperty(const QString name);
-    //void showLogView(QQuickItem * item);
-    //void hideLogView(QQuickItem *item);
-
-    //Funciones Imagen
-    void itemToFrame(QQuickItem *item);
-    void loadImageToFrame(const QByteArray url);
 
     //Funciones Network
     QByteArray getHttpFile(QByteArray url);
     void httpReadyRead();
-    void startRequest(QUrl url);
-    void fileGetError(QNetworkReply::NetworkError error);
-    void httpFinished();
-    bool downloadFile(QByteArray url, QByteArray ubicacion);
     bool downloadZipFile(QByteArray url, QByteArray ubicacion);
     void sendFile(QString file, QString phpReceiver);
     void uploadProgress(qint64 bytesSend, qint64 bytesTotal);
