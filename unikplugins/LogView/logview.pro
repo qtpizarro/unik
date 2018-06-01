@@ -10,7 +10,7 @@ linux{
   qmakeforce.depends = FORCE
   PRE_TARGETDEPS += $$qmakeforce.target
   QMAKE_EXTRA_TARGETS += qmakeforce
-DESTDIR= /media/nextsigner/ZONA-A1/nsp/unik/unik/qml/LogView
+  DESTDIR= ../../../unik-recursos/build_unik_linux_64/qml/LogView
         message(Destino GNU/Linux NO Android $$DESTDIR)
     }
 }
