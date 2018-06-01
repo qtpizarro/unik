@@ -9,16 +9,19 @@ linux{
     !android{
         message(Linux NO ANDROID)
         QT += webengine webview
-        DESTDIR= $$PWD/unik
+        DESTDIR= ../nsp/unik-recursos/build_unik_linux_64
         message(Ubicaciòn del Ejecutable: $$DESTDIR)
-        INCLUDEPATH+=/media/nextsigner/ZONA-A1/nsp/asterisk-cpp/asterisk-cpp
-        INCLUDEPATH += /usr/include
-        LIBS += -L"/usr/include/boost" -lboost_system
+
+        #Configurar proyecto para Asterisk
+        #INCLUDEPATH+=/media/nextsigner/ZONA-A1/nsp/asterisk-cpp/asterisk-cpp
+        #INCLUDEPATH += /usr/include
+        #LIBS += -L"/usr/include/boost" -lboost_system
+
         #Para Plugins unikSqliteCrypto
-        message(Plugins unikSqliteCrypto INCLUDEPATH= $$PWD/unikSqliteCrypto)
-        INCLUDEPATH += $$PWD/unikSqliteCrypto
-        message(Plugins unikSqliteCrypto LIBS = -L$$PWD/build_usc_linux  -libunikSqliteCrypto.so)
-        LIBS += -L$$PWD/build_usc_linux  -lunikSqliteCrypto
+        #message(Plugins unikSqliteCrypto INCLUDEPATH= $$PWD/unikSqliteCrypto)
+        LIBS += -L$$PWD/../unik-recursos/build_usc_linux/ -lunikSqliteCrypto
+        INCLUDEPATH += $$PWD/../unik-recursos/unikSqliteCrypto
+        DEPENDPATH += $$PWD/../unik-recursos/unikSqliteCrypto
     }
 }
 mac{
@@ -121,5 +124,7 @@ DISTFILES += \
     android/assets/unik-tools/ToUpkDialog.qml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+
 
 

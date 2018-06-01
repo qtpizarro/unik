@@ -16,22 +16,6 @@
 #include <VLCQtQml/QmlVideoPlayer.h>
 #endif
 
-#ifdef Q_OS_LINUX
-#ifndef Q_OS_ANDROID
-#include <iostream>
-#include "asteriskcpp/utils/LogHandler.h"
-#include "asteriskcpp/manager/ManagerConnection.h"
-#include "asteriskcpp/manager/ManagerEventListener.h"
-
-using namespace asteriskcpp;
-onManagerEventCallback_t eventCallback(ManagerEvent *me) {
-    //const std::string& testName = me->toString();
-    //qDebug()<<testName.data();
-    //std::cout << std::endl << "TEST:EVENT" << me->toLog() << std::endl;
-}
-#endif
-#endif
-
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
