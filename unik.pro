@@ -37,7 +37,7 @@ mac{
 }
 windows{
     QT += webengine
-    Release:DESTDIR = ../nsp/unik-recursos/build_win_unik_32
+    DESTDIR = ../build_win_unik_32
     RC_FILE = unik.rc
     LIBS += -L$$PWD/../libvlc-qt/lib/ -lVLCQtCore -lVLCQtWidgets -lVLCQtQml
     INCLUDEPATH += $$PWD/../libvlc-qt/include
