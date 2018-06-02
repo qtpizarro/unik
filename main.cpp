@@ -35,13 +35,15 @@
 UK u;
 QByteArray debugData;
 QString debugPrevio;
+bool abortar=false;
 void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QTextStream out(stdout);
     QByteArray localMsg = msg.toLocal8Bit();
+    debugData="";
+    abortar=false;
     switch (type) {
-    case QtDebugMsg:
-        debugData="";
+    case QtDebugMsg:        
         debugData.append("Unik Debug: (");
         debugData.append(msg);
         if(context.file!=NULL){
@@ -56,11 +58,8 @@ void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QStr
             fprintf(stderr, "Debug: %s\n", localMsg.constData());
         }
         debugData.append(")\n");
-        u.log(debugData);
-        out << debugData;
         break;
     case QtInfoMsg:
-        debugData="";
         debugData.append("Unik Info: (");
         debugData.append(msg);
         if(context.file!=NULL){
@@ -75,10 +74,8 @@ void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QStr
             fprintf(stderr, "Info: %s\n", localMsg.constData());
         }
         debugData.append(")\n");
-        u.log(debugData);
-        out << debugData;        break;
+        break;
     case QtWarningMsg:
-        debugData="";
         debugData.append("Unik Warning: (");
         debugData.append(msg);
         if(context.file!=NULL){
@@ -93,11 +90,8 @@ void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QStr
             fprintf(stderr, "Warning: %s\n", localMsg.constData());
         }
         debugData.append(")\n");
-        u.log(debugData);
-        out << debugData;
         break;
     case QtCriticalMsg:
-        debugData="";
         debugData.append("Unik Critical: (");
         debugData.append(msg);
         if(context.file!=NULL){
@@ -112,11 +106,8 @@ void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QStr
             fprintf(stderr, "Critical: %s\n", localMsg.constData());
         }
         debugData.append(")\n");
-        u.log(debugData);
-        out << debugData;
         break;
     case QtFatalMsg:
-        debugData="";
         debugData.append("Unik Fatal: (");
         debugData.append(msg);
         debugData.append(",");
@@ -126,8 +117,13 @@ void unikStdOutPut(QtMsgType type, const QMessageLogContext &context, const QStr
         debugData.append(",");
         debugData.append(context.function);
         debugData.append(")\n");
-        u.log(debugData);
-        out << debugData;
+        abortar=true;
+    }    
+    u.log(debugData);
+#ifdef Q_OS_WIN
+    out << debugData;
+#endif
+    if(abortar){
         abort();
     }
 }
@@ -248,7 +244,9 @@ int main(int argc, char *argv[])
     engine.load("qrc:/Splash.qml");
 #endif
 
-    QObject::connect(&engine, SIGNAL(warnings(QList<QQmlError>)), &u, SLOT(errorQML(QList<QQmlError>)));
+    //Example Connection for unik engine into uk.cpp method.
+    //QObject::connect(&engine, SIGNAL(warnings(QList<QQmlError>)), &u, SLOT(errorQML(QList<QQmlError>)));
+
     u.enabledInj = true;
 
     bool debugLog=false;
@@ -1564,9 +1562,15 @@ int main(int argc, char *argv[])
         qInfo(log3);
 
         QByteArray log4;
+
         log4.append("\nunik version: ");
         log4.append(app.applicationVersion());
         log4.append("\n");
+
+        log4.append("\nWork Space: ");
+        log4.append(settings.value("ws").toString());
+        log4.append("\n");
+
 
         log4.append("updateDay: ");
         log4.append(updateDay ? "true" : "false");

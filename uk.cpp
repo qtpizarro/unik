@@ -28,16 +28,44 @@ QString UK::host()
 
 void UK::ukClose(QQuickCloseEvent *close){
     QSettings settings;
-#ifndef Q_OS_ANDROID
     _engine->rootContext()->setContextProperty("logViewVisible", true);
     qInfo("ApplicationWindow closed. ");
     db.close();
+
+    /*
+     * This is a disable unik code :)
+     * This method is replaced by
+     * onClosing{
+     *      //close.accepted=false
+     *      engine.load(appDirs+'/unik-tools/main.qml')
+     *  }
+     *
+     *
+#ifndef Q_OS_ANDROID
     QByteArray unikMainLocation;
 
     unikMainLocation.append(settings.value("ws").toString());
     unikMainLocation.append("/unik-tools/main.qml");
     qInfo("Loading "+unikMainLocation);
-   _engine->load(unikMainLocation);
+   //_engine->load(unikMainLocation);
+   QStringList listaErrores;
+    QQmlComponent component(_engine, QUrl::fromLocalFile(unikMainLocation));
+   if (component.errors().size()>0){
+       log("Errors detected!");
+       for (int i = 0; i < component.errors().size(); ++i) {
+           listaErrores.append(component.errors().at(i).toString());
+           listaErrores.append("\n");
+       }
+       //qDebug()<<"------->"<<component.errors();
+       _engine->rootContext()->setContextProperty("unikError", listaErrores);
+#ifdef Q_OS_ANDROID
+       _engine->load(QUrl(QStringLiteral("qrc:/mainAndroid.qml")));
+#else
+       _engine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+#endif
+
+   }
+
  #else
     _engine->rootContext()->setContextProperty("wait", true);
     log("Android ApplicationWindow closed. ");
@@ -54,11 +82,12 @@ void UK::ukClose(QQuickCloseEvent *close){
 
     //if(!canCloseApp){
         _engine->load(unikMainLocation);
-    /*}else{
-        qApp->quit();
-    }*/
+    //}else{
+        //qApp->quit();
+    //}
 
 #endif        
+    */
 }
 
 void UK::engineExited(int n)

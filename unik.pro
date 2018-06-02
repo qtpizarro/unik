@@ -9,7 +9,7 @@ linux{
     !android{
         message(Linux NO ANDROID)
         QT += webengine webview
-        DESTDIR= ../unik-recursos/build_unik_linux_64
+        DESTDIR= ../build_unik_linux_64
         message(Ubicaciòn del Ejecutable: $$DESTDIR)
 
         #Configurar proyecto para Asterisk
